@@ -1,0 +1,40 @@
+{
+    "env": {
+        "gccRoot":"c:/mingw64"
+    },
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceRoot}",
+                "${workspaceFolder}/**",
+                "${gccRoot}/include/c++/11.2.0",
+                "${gccRoot}/include/c++/11.2.0/x86_64-w64-mingw32",
+                "${gccRoot}/lib/clang/13.0.0/include",
+                "${gccRoot}/x86_64-w64-mingw32/include",
+                "${gccRoot}/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_WIN32",
+                "__cdecl=__attribute__((__cdecl__))",
+                "__SIZE_TYPE__=long long unsigned int"
+            ],
+            "intelliSenseMode": "gcc-x64",
+            "browse": {
+                "path": [
+                    "${workspaceRoot}",
+                    "${workspaceFolder}",
+                    "${gccRoot}/include/c++/11.2.0",
+                    "${gccRoot}/include/c++/11.2.0/x86_64-w64-mingw32",
+                    "${gccRoot}/lib/clang/13.0.0/include",
+                    "${gccRoot}/x86_64-w64-mingw32/include",
+                    "${gccRoot}/include"
+                ]
+            },
+            "configurationProvider": "ms-vscode.cmake-tools"
+        }
+    ],
+    "version": 4
+}

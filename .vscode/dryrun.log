@@ -1,0 +1,24 @@
+make.exe --dry-run --always-make --keep-going --print-directory
+make: Entering directory 'c:/Users/adminstrator/VSC/sfSnake-master'
+mkdir2 -p build/./
+g++ -g -std=c++17 -Wall -O2 -Iinclude -c Fruit.cpp -o build/./Fruit.o
+ 
+mkdir2 -p build/./
+g++ -g -std=c++17 -Wall -O2 -Iinclude -c Game.cpp -o build/./Game.o
+mkdir2 -p build/./
+g++ -g -std=c++17 -Wall -O2 -Iinclude -c GameOverScreen.cpp -o build/./GameOverScreen.o
+mkdir2 -p build/./
+g++ -g -std=c++17 -Wall -O2 -Iinclude -c GameScreen.cpp -o build/./GameScreen.o
+mkdir2 -p build/./
+g++ -g -std=c++17 -Wall -O2 -Iinclude -c MenuScreen.cpp -o build/./MenuScreen.o
+mkdir2 -p build/./
+g++ -g -std=c++17 -Wall -O2 -Iinclude -c Screen.cpp -o build/./Screen.o
+mkdir2 -p build/./
+g++ -g -std=c++17 -Wall -O2 -Iinclude -c Snake.cpp -o build/./Snake.o
+mkdir2 -p build/./
+g++ -g -std=c++17 -Wall -O2 -Iinclude -c SnakeNode.cpp -o build/./SnakeNode.o
+mkdir2 -p build/./
+g++ -g -std=c++17 -Wall -O2 -Iinclude -c main.cpp -o build/./main.o
+g++ -g -std=c++17 -Wall -O2 build/./Fruit.o build/./Game.o build/./GameOverScreen.o build/./GameScreen.o build/./MenuScreen.o build/./Screen.o build/./Snake.o build/./SnakeNode.o build/./main.o -o main  -Llib -lsfml-audio -lsfml-graphics -lsfml-main -lsfml-network -lsfml-system -lsfml-window
+make: Leaving directory 'c:/Users/adminstrator/VSC/sfSnake-master'
+ 
