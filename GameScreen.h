@@ -17,12 +17,13 @@ public:
 	void handleInput(sf::RenderWindow& window) override;
 	void update(sf::Time delta) override;
 	void render(sf::RenderWindow& window) override;
-
+	std::string picture;
 	void generateFruit();
 
 private:
 	Snake snake_;
 	std::vector<Fruit> fruit_;
+	sf::Clock clock;
 };
 }
 

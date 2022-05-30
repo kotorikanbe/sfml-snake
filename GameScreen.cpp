@@ -11,7 +11,7 @@ using namespace sfSnake;
 
 GameScreen::GameScreen() : snake_()
 {
-
+	picture="Pictures/1.png";
 }
 
 void GameScreen::handleInput(sf::RenderWindow& window)
@@ -21,7 +21,7 @@ void GameScreen::handleInput(sf::RenderWindow& window)
 
 void GameScreen::update(sf::Time delta)
 {
-	if (fruit_.size() == 0)
+	if (fruit_.size() <= 5&& static_cast<int>(clock.restart().asMicroseconds())%10==0)
 		generateFruit();
 
 	snake_.update(delta);
@@ -33,6 +33,10 @@ void GameScreen::update(sf::Time delta)
 
 void GameScreen::render(sf::RenderWindow& window)
 {
+	sf::Texture background;
+	background.loadFromFile(picture);
+	sf::Sprite sprite(background);
+	window.draw(sprite);
 	snake_.render(window);
 
 	for (auto fruit : fruit_)
