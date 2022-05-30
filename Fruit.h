@@ -16,7 +16,7 @@ public:
 
 private:
 	sf::CircleShape shape_;
-
+	sf::Color getacolor();
 	static const float Radius;
 };
 }
