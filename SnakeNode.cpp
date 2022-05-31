@@ -7,14 +7,15 @@ using namespace sfSnake;
 const float SnakeNode::Width = 10.f;
 const float SnakeNode::Height = 10.f;
 
-SnakeNode::SnakeNode(sf::Vector2f position)
-: position_(position)
+SnakeNode::SnakeNode(sf::Vector2f position,bool idt)
+	: position_(position),ishead(idt)
 {
 	shape_.setPosition(position_);
-	shape_.setFillColor(sf::Color::Green);
+	shape_.setFillColor(getacolor());
 	shape_.setSize(sf::Vector2f(SnakeNode::Width, SnakeNode::Height));
 	shape_.setOutlineColor(sf::Color::White);
 	shape_.setOutlineThickness(-1.f);
+	
 }
 
 void SnakeNode::setPosition(sf::Vector2f position)
@@ -47,7 +48,29 @@ sf::Vector2f SnakeNode::getPosition() const
 	return position_;
 }
 
-void SnakeNode::render(sf::RenderWindow& window)
-{
+void SnakeNode::render(sf::RenderWindow &window)
+{	
 	window.draw(shape_);
+}
+void SnakeNode::sethead()
+{
+	if (!ishead)
+	{
+		ishead = true;
+	}
+	return;
+}
+sf::Color SnakeNode::getacolor(){
+	static bool target=true;
+	if(ishead){
+		return sf::Color::Blue;
+	}
+	if(target){
+		target=false;
+		return sf::Color::Black;
+	}
+	else{
+		target=true;
+		return sf::Color::Yellow;
+	}
 }
