@@ -18,7 +18,7 @@ MenuScreen::MenuScreen()
 
 	snakeText_.setFont(font_);
 	snakeText_.setString("Snake!");
-	snakeText_.setColor(sf::Color::Green);
+	snakeText_.setFillColor(sf::Color::Green);
 	snakeText_.setCharacterSize(64);
 	snakeText_.setStyle(sf::Text::Bold);
 
