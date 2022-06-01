@@ -24,7 +24,7 @@ namespace sfSnake
 	public:
 		Snake();
 
-		void handleInput(sf::RenderWindow &window);
+		void handleInput(sf::RenderWindow &window,std::vector<Fruit> &fruits);
 		void update(sf::Time delta,std::vector<Fruit> &fruits);
 		void render(sf::RenderWindow &window);
 
@@ -33,12 +33,12 @@ namespace sfSnake
 		bool hitSelf() const;
 
 		unsigned getSize() const;
-
+		void checkSelfCollisions();
 	private:
 		void move();
-		void grow();
+		void grow(sf::Color color);
 		void checkEdgeCollisions();
-		void checkSelfCollisions();
+
 
 		void initNodes();
 		float arc_;

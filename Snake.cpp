@@ -11,7 +11,7 @@
 static sf::Vector2f edge;
 using namespace sfSnake;
 const float PI = 3.1415926535;
-const int Snake::InitialSize = 7;
+const int Snake::InitialSize = 5;
 static float frad(float rad)
 {
 	// if (2.9 >= rad && rad >= 0.5)
@@ -23,7 +23,11 @@ static float frad(float rad)
 	// else
 	// 	return 180;
 }
-void edgecrossing(SnakeNode &headNode)
+static float distance(const sf::Vector2f &dot1, const sf::Vector2f &dot2)
+{
+	return sqrt(pow(dot1.x - dot2.x, 2) + pow(dot1.y - dot2.y, 2));
+}
+static void edgecrossing(SnakeNode &headNode)
 {
 	if (headNode.getPosition().x <= 0)
 	{
@@ -46,7 +50,7 @@ void edgecrossing(SnakeNode &headNode)
 		headNode.setPosition(headNode.getPosition().x, 0);
 	}
 }
-Snake::Snake() : direction_(sf::Vector2f(0.0, 1)), hitSelf_(false)
+Snake::Snake() : hitSelf_(false),direction_(sf::Vector2f(0.0, 1))
 {
 	initNodes();
 
@@ -65,12 +69,12 @@ void Snake::initNodes()
 	{
 		if (i == 0)
 		{
-			SnakeNode snakenode(sf::Vector2f(Game::Width / 2 - SnakeNode::Width / 2, Game::Height / 2 - (SnakeNode::Height / 2) + (SnakeNode::Height * i)), true, 90);
+			SnakeNode snakenode(sf::Vector2f(Game::Width / 2 - SnakeNode::Width / 2, Game::Height / 2 - (SnakeNode::Height / 2) - (SnakeNode::Height * i)), true, 90);
 			nodes_.push_back(snakenode);
 		}
 		else
 		{
-			SnakeNode snakenode(sf::Vector2f(Game::Width / 2 - SnakeNode::Width / 2, Game::Height / 2 - (SnakeNode::Height / 2) + (SnakeNode::Height * (static_cast<float>(i) + 0.1))), false, 90);
+			SnakeNode snakenode(sf::Vector2f(Game::Width / 2 - SnakeNode::Width / 2, Game::Height / 2 - (SnakeNode::Height / 2) - (SnakeNode::Height * (static_cast<float>(i) + 0.1))), false, 90);
 			nodes_.push_back(snakenode);
 		}
 	}
@@ -97,10 +101,13 @@ void Snake::initNodes()
 // 		direction_ = Direction::Right;
 // }
 
-void Snake::handleInput(sf::RenderWindow &window)
+void Snake::handleInput(sf::RenderWindow &window, std::vector<Fruit> &fruits)
 {
+	checkSelfCollisions();
+	checkFruitCollisions(fruits);
 	if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 	{
+		checkFruitCollisions(fruits);
 		sf::Vector2f start = nodes_[0].getPosition();
 		sf::Vector2i end = sf::Mouse::getPosition(window);
 		sf::Vector2f vector(static_cast<float>(end.x) - start.x, static_cast<float>(end.y) - start.y);
@@ -110,12 +117,16 @@ void Snake::handleInput(sf::RenderWindow &window)
 		direction_ = std::move(vector);
 		arc_ = frad(tmp);
 	}
+	checkFruitCollisions(fruits);
+	checkSelfCollisions();
 }
 void Snake::update(sf::Time delta, std::vector<Fruit> &fruits)
 {
+	checkFruitCollisions(fruits);
 	checkEdgeCollisions();
 	checkSelfCollisions();
 	checkFruitCollisions(fruits);
+	checkSelfCollisions();
 	move();
 }
 
@@ -125,44 +136,59 @@ void Snake::checkFruitCollisions(std::vector<Fruit> &fruits)
 
 	for (auto it = fruits.begin(); it != fruits.end(); ++it)
 	{
-		sf::FloatRect tmp = nodes_[0].getBounds();
-		tmp.width += 0.5;
-		tmp.height += 0.5;
-		if (it->getBounds().intersects(tmp))
+		sf::Vector2f tmp = nodes_[0].getPosition();
+		if (distance(tmp,it->getPositions())<15.0f)
 			toRemove = it;
 	}
 
 	if (toRemove != fruits.end())
 	{
 		pickupSound_.play();
-		grow();
+		grow(toRemove->getcolor());
 		fruits.erase(toRemove);
 	}
 }
 
-void Snake::grow()
+void Snake::grow(sf::Color color)
 {
-	// switch (direction_)
-	// {
-	// case Direction::Up:
-	// 	nodes_.push_back(SnakeNode(sf::Vector2f(nodes_[nodes_.size() - 1].getPosition().x,
-	// 											nodes_[nodes_.size() - 1].getPosition().y + SnakeNode::Height)));
-	// 	break;
-	// case Direction::Down:
-	// 	nodes_.push_back(SnakeNode(sf::Vector2f(nodes_[nodes_.size() - 1].getPosition().x,
-	// 											nodes_[nodes_.size() - 1].getPosition().y - SnakeNode::Height)));
-	// 	break;
-	// case Direction::Left:
-	// 	nodes_.push_back(SnakeNode(sf::Vector2f(nodes_[nodes_.size() - 1].getPosition().x + SnakeNode::Width,
-	// 											nodes_[nodes_.size() - 1].getPosition().y)));
-	// 	break;
-	// case Direction::Right:
-	// 	nodes_.push_back(SnakeNode(sf::Vector2f(nodes_[nodes_.size() - 1].getPosition().x - SnakeNode::Width,
-	// 											nodes_[nodes_.size() - 1].getPosition().y)));
-	// 	break;
-	// }
-	SnakeNode snakenode(sf::Vector2f(nodes_[nodes_.size() - 1].getPosition().x + direction_.x * SnakeNode::Width, nodes_[nodes_.size() - 1].getPosition().y + direction_.y * SnakeNode::Height), false, nodes_[nodes_.size() - 1].arc_);
-	nodes_.push_back(snakenode);
+	static sf::Color brown1{140, 81, 25, 255};
+	static sf::Color brown2{139, 105, 20, 255};
+	static sf::Color brown3{139, 69, 19, 255};
+	static sf::Color brown4{165, 42, 42, 255};
+	static sf::Color brown5{205, 149, 12, 255};
+	static sf::Color blue1{152, 245, 255, 255};
+	static sf::Color blue2{0, 0, 255, 255};
+	static sf::Color blue3{135, 206, 250, 255};
+	static sf::Color blue4{65, 105, 255, 255};
+	static sf::Color blue5{100, 149, 237, 255};
+	static sf::Color red1{255, 0, 0, 255};
+	static sf::Color red2{255, 69, 0, 255};
+	static sf::Color red3{238, 44, 44, 255};
+	static sf::Color red4{205, 85, 85, 255};
+	static sf::Color red5{250, 128, 124, 255};
+	static sf::Color green1{0, 255, 0, 255};
+	static sf::Color green2{154, 205, 50, 255};
+	static sf::Color green3{0, 255, 127, 255};
+	static sf::Color green4{34, 139, 34, 255};
+	static sf::Color green5{32, 178, 170, 255};
+	static std::vector<sf::Color> blackandbrown{sf::Color::Black, brown1, brown2, brown3, brown4, brown5};
+	static std::vector<sf::Color> red{red1, red2, red3, red4, red5};
+	static std::vector<sf::Color> blue{blue1, blue2, blue3, blue4, blue5};
+	static std::vector<sf::Color> green{green1, green2, green3, green4, green5};
+	int count = 0;
+	if (std::find(blackandbrown.begin(), blackandbrown.end(), color) != blackandbrown.end())
+		count = 0;
+	if (std::find(red.begin(), red.end(), color) != red.end())
+		count = 3;
+	if (std::find(blue.begin(), blue.end(), color) != blue.end())
+		count = 2;
+	if (std::find(green.begin(), green.end(), color) != green.end())
+		count = 1;
+	for (int i = 0; i < count;i++)
+	{
+		SnakeNode snakenode(sf::Vector2f(nodes_[nodes_.size() - 1].getPosition().x + direction_.x * SnakeNode::Width, nodes_[nodes_.size() - 1].getPosition().y + direction_.y * SnakeNode::Height), false, nodes_[nodes_.size() - 1].arc_);
+		nodes_.push_back(snakenode);
+	}
 }
 
 unsigned Snake::getSize() const
@@ -177,17 +203,17 @@ bool Snake::hitSelf() const
 
 void Snake::checkSelfCollisions()
 {
-	// SnakeNode &headNode = nodes_[0];
+	SnakeNode &headNode = nodes_[0];
 
-	// for (decltype(nodes_.size()) i = 1; i < nodes_.size(); ++i)
-	// {
-	// 	if (headNode.getBounds().intersects(nodes_[i].getBounds()))
-	// 	{
-	// 		dieSound_.play();
-	// 		sf::sleep(sf::seconds(dieBuffer_.getDuration().asSeconds()));
-	// 		hitSelf_ = true;
-	// 	}
-	// }
+	for (decltype(nodes_.size()) i = 1; i < nodes_.size(); ++i)
+	{
+		if (distance(headNode.getPosition(), nodes_[i].getPosition()) < 3.0f)
+		{
+			dieSound_.play();
+			sf::sleep(sf::seconds(dieBuffer_.getDuration().asSeconds()));
+			hitSelf_ = true;
+		}
+	}
 }
 
 void Snake::checkEdgeCollisions()

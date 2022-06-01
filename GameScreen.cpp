@@ -9,42 +9,63 @@
 
 using namespace sfSnake;
 
-GameScreen::GameScreen() : snake_()
+GameScreen::GameScreen(sf::Color backgroundscolor,sf::Color linescolor ,bool idt) : lines(idt),backgroundcolor(backgroundscolor),linecolor(linescolor),snake_()
 {
-	picture = "Pictures/while_full.png";
+
 }
 
 void GameScreen::handleInput(sf::RenderWindow &window)
 {
 	static std::default_random_engine engine(time(NULL));
 	static std::uniform_int_distribution<int> Distribution(0, 100000);
+	snake_.checkFruitCollisions(fruit_);
+	snake_.checkSelfCollisions();
 	if (Distribution(engine) % 200 == 0)
 		generateFruit();
-	snake_.handleInput(window);
+	snake_.handleInput(window,fruit_);
+	snake_.checkFruitCollisions(fruit_);
+	snake_.checkSelfCollisions();
 }
 
 void GameScreen::update(sf::Time delta)
 {
 	static std::default_random_engine engine(time(NULL));
 	static std::uniform_int_distribution<int> Distribution(0, 100000);
+	snake_.checkFruitCollisions(fruit_);
+	snake_.checkSelfCollisions();
 	if (Distribution(engine) % 200 == 0)
 		generateFruit();
-
+	snake_.checkFruitCollisions(fruit_);
+	snake_.checkSelfCollisions();
 	snake_.update(delta,fruit_);
 	
 	snake_.checkFruitCollisions(fruit_);
-	
+	snake_.checkSelfCollisions();
 
 	if (snake_.hitSelf())
 		Game::Screen = std::make_shared<GameOverScreen>(snake_.getSize());
+	snake_.checkFruitCollisions(fruit_);
 }
 
 void GameScreen::render(sf::RenderWindow &window)
 {
-	sf::Texture background;
-	background.loadFromFile(picture);
-	sf::Sprite sprite(background);
-	window.draw(sprite);
+	sf::RectangleShape background(sf::Vector2f(Game::Width,Game::Height));
+	background.setFillColor(backgroundcolor);
+	window.draw(background);
+	if(lines){
+		for(int i=0;i<Game::Width;i+=10){
+			sf::RectangleShape cline(sf::Vector2f(2.0,Game::Height));
+			cline.setFillColor(linecolor);
+			cline.setPosition(sf::Vector2f(static_cast<float>(i),0));
+			window.draw(cline);
+		}
+		for(int i=0;i<Game::Height;i+=10){
+			sf::RectangleShape cline(sf::Vector2f(Game::Width,2.0));
+			cline.setFillColor(linecolor);
+			cline.setPosition(sf::Vector2f(0,static_cast<float>(i)));
+			window.draw(cline);
+		}
+	}
 	snake_.render(window);
 
 	for (auto fruit : fruit_)

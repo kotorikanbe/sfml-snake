@@ -25,6 +25,10 @@ sf::FloatRect Fruit::getBounds() const
 {
 	return shape_.getGlobalBounds();
 }
+sf::Vector2f Fruit::getPositions()const
+{
+	return shape_.getPosition();
+}
 sf::Color Fruit::getacolor(){
 	static sf::Color brown1{140,81,25,255};
 	static sf::Color brown2{139,105,20,255};
@@ -59,4 +63,7 @@ sf::Color Fruit::getacolor(){
 		std::random_shuffle(Colors2.begin(),Colors2.end());
 		return *Colors2.begin();
 	}
+}
+sf::Color Fruit::getcolor()const{
+	return shape_.getFillColor();
 }

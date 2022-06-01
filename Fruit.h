@@ -13,7 +13,8 @@ public:
 	void render(sf::RenderWindow& window);
 
 	sf::FloatRect getBounds() const;
-
+	sf::Color getcolor() const;
+	sf::Vector2f getPositions()const;
 private:
 	sf::CircleShape shape_;
 	sf::Color getacolor();

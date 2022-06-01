@@ -7,7 +7,7 @@ using namespace sfSnake;
 
 
 SnakeNode::SnakeNode(sf::Vector2f position, bool idt, float arc)
-	: position_(position), ishead_(idt),arc_(arc)
+	:  ishead_(idt),arc_(arc),position_(position)
 {
 	if(ishead_){
 		texture.loadFromFile("Pictures/head.png");

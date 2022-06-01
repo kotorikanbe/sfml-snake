@@ -26,12 +26,12 @@ public:
 	static const int Height = 720;
 
 	static std::shared_ptr<Screen> Screen;
-
+	static sf::Time TimePerFrame;
 private:
 	sf::RenderWindow window_;
 	sf::Music bgMusic_;
 	
-	static const sf::Time TimePerFrame;
+	
 };
 }
 
