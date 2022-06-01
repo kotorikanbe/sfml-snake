@@ -22,8 +22,8 @@ public:
 	void update(sf::Time delta);
 	void render();
 
-	static const int Width = 640;
-	static const int Height = 480;
+	static const int Width = 1080;
+	static const int Height = 720;
 
 	static std::shared_ptr<Screen> Screen;
 

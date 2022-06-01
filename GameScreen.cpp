@@ -11,34 +11,35 @@ using namespace sfSnake;
 
 GameScreen::GameScreen() : snake_()
 {
-	picture="Pictures/while_full.png";
+	picture = "Pictures/while_full.png";
 }
 
-void GameScreen::handleInput(sf::RenderWindow& window)
+void GameScreen::handleInput(sf::RenderWindow &window)
 {
 	static std::default_random_engine engine(time(NULL));
 	static std::uniform_int_distribution<int> Distribution(0, 100000);
-	if (fruit_.size() <= 5&& Distribution(engine)%10==0)
+	if (Distribution(engine) % 200 == 0)
 		generateFruit();
 	snake_.handleInput(window);
-
 }
 
 void GameScreen::update(sf::Time delta)
 {
 	static std::default_random_engine engine(time(NULL));
 	static std::uniform_int_distribution<int> Distribution(0, 100000);
-	if (fruit_.size() <= 5&& Distribution(engine)%10==0)
+	if (Distribution(engine) % 200 == 0)
 		generateFruit();
 
-	snake_.update(delta);
+	snake_.update(delta,fruit_);
+	
 	snake_.checkFruitCollisions(fruit_);
+	
 
 	if (snake_.hitSelf())
 		Game::Screen = std::make_shared<GameOverScreen>(snake_.getSize());
 }
 
-void GameScreen::render(sf::RenderWindow& window)
+void GameScreen::render(sf::RenderWindow &window)
 {
 	sf::Texture background;
 	background.loadFromFile(picture);
@@ -58,4 +59,3 @@ void GameScreen::generateFruit()
 
 	fruit_.push_back(Fruit(sf::Vector2f(xDistribution(engine), yDistribution(engine))));
 }
-

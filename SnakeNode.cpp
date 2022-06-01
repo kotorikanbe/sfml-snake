@@ -7,7 +7,7 @@ using namespace sfSnake;
 
 
 SnakeNode::SnakeNode(sf::Vector2f position, bool idt, float arc)
-	: position_(position), ishead_(idt), arc_(arc)
+	: position_(position), ishead_(idt),arc_(arc)
 {
 	if(ishead_){
 		texture.loadFromFile("Pictures/head.png");
@@ -18,6 +18,7 @@ SnakeNode::SnakeNode(sf::Vector2f position, bool idt, float arc)
 	sprite.setTexture(texture);
 	sprite.setPosition(position_);
 	sprite.setScale(sf::Vector2f(0.1, 0.1));
+	
 }
 
 void SnakeNode::setPosition(sf::Vector2f position)
@@ -75,8 +76,8 @@ void SnakeNode::sethead()
 	return;
 }
 static SnakeNode snakenode;
-const float SnakeNode::Width = snakenode.getBounds().width;
-const float SnakeNode::Height = snakenode.getBounds().height;
+const float SnakeNode::Width = 11.0f;
+const float SnakeNode::Height = 11.0f;
 // sf::Color SnakeNode::getacolor()
 // {
 // 	static bool target = true;
