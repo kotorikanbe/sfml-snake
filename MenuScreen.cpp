@@ -5,7 +5,7 @@
 #include "GameScreen.h"
 #include "MenuScreen.h"
 #include "Game.h"
-
+#include "GameOverScreen.h"
 using namespace sfSnake;
 static sf::Color Brown(139, 69, 19, 255);
 MenuScreen::MenuScreen()
