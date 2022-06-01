@@ -8,7 +8,7 @@ namespace sfSnake
 	class SnakeNode
 	{
 	public:
-		SnakeNode(sf::Vector2f position = sf::Vector2f(0, 0),bool idt=false);
+		SnakeNode(sf::Vector2f position = sf::Vector2f(0, 0),bool idt=false,float arc=0);
 
 		void setPosition(sf::Vector2f position);
 		void setPosition(float x, float y);
@@ -22,12 +22,14 @@ namespace sfSnake
 
 		static const float Width;
 		static const float Height;
-		bool ishead;
+		bool ishead_;
 		void sethead();
-
+		float arc_;
 	private:
-		sf::RectangleShape shape_;
+		sf::Texture texture;
+		sf::Sprite sprite;
 		sf::Vector2f position_;
+
 		sf::Color getacolor();
 	};
 }

@@ -13,46 +13,50 @@ namespace sfSnake
 {
 	enum class Direction
 	{
-		Left, Right, Up, Down
+		Left,
+		Right,
+		Up,
+		Down
 	};
 
-class Snake
-{
-public:
-	Snake();
+	class Snake
+	{
+	public:
+		Snake();
 
-	void handleInput();
-	void update(sf::Time delta);
-	void render(sf::RenderWindow& window);
+		void handleInput(sf::RenderWindow &window);
+		void update(sf::Time delta);
+		void render(sf::RenderWindow &window);
 
-	void checkFruitCollisions(std::vector<Fruit>& fruits);
+		void checkFruitCollisions(std::vector<Fruit> &fruits);
 
-	bool hitSelf() const;
+		bool hitSelf() const;
 
-	unsigned getSize() const;
+		unsigned getSize() const;
 
-private:
-	void move();
-	void grow();
-	void checkEdgeCollisions();
-	void checkSelfCollisions();
-	void initNodes();
+	private:
+		void move();
+		void grow();
+		void checkEdgeCollisions();
+		void checkSelfCollisions();
+		void initNodes();
+		float arc_;
+		bool hitSelf_;
 
-	bool hitSelf_;
+		sf::Vector2f position_;
+		// Direction direction_;
+		sf::Vector2f direction_;
 
-	sf::Vector2f position_;
-	Direction direction_;
+		sf::SoundBuffer pickupBuffer_;
+		sf::Sound pickupSound_;
 
-	sf::SoundBuffer pickupBuffer_;
-	sf::Sound pickupSound_;
+		sf::SoundBuffer dieBuffer_;
+		sf::Sound dieSound_;
 
-	sf::SoundBuffer dieBuffer_;
-	sf::Sound dieSound_;
+		std::vector<SnakeNode> nodes_;
 
-	std::vector<SnakeNode> nodes_;
-
-	static const int InitialSize;
-};
+		static const int InitialSize;
+	};
 }
 
 #endif

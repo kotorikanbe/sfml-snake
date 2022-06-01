@@ -16,14 +16,19 @@ GameScreen::GameScreen() : snake_()
 
 void GameScreen::handleInput(sf::RenderWindow& window)
 {
-	snake_.handleInput();
+	static std::default_random_engine engine(time(NULL));
+	static std::uniform_int_distribution<int> Distribution(0, 100000);
+	if (fruit_.size() <= 5&& Distribution(engine)%10==0)
+		generateFruit();
+	snake_.handleInput(window);
+
 }
 
 void GameScreen::update(sf::Time delta)
 {
 	static std::default_random_engine engine(time(NULL));
 	static std::uniform_int_distribution<int> Distribution(0, 100000);
-	if (fruit_.size() <= 5&& Distribution(engine)%20==0)
+	if (fruit_.size() <= 5&& Distribution(engine)%10==0)
 		generateFruit();
 
 	snake_.update(delta);
