@@ -25,7 +25,7 @@ public:
 	static const int Width = 1080;
 	static const int Height = 720;
 
-	static std::shared_ptr<Screen> Screen;
+	static std::unique_ptr<Screen> Screen;
 	static sf::Time TimePerFrame;
 private:
 	sf::RenderWindow window_;

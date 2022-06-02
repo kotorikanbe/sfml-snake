@@ -6,7 +6,6 @@
 #include "GameScreen.h"
 #include "GameOverScreen.h"
 #include "Game.h"
-
 using namespace sfSnake;
 
 GameScreen::GameScreen(sf::Color backgroundscolor,sf::Color linescolor ,bool idt) : lines(idt),backgroundcolor(backgroundscolor),linecolor(linescolor),snake_()
@@ -43,8 +42,8 @@ void GameScreen::update(sf::Time delta)
 	snake_.checkSelfCollisions();
 
 	if (snake_.hitSelf()){
+		Game::Screen = std::make_unique<GameOverScreen>(snake_.getSize());
 		Game::TimePerFrame=sf::seconds(1.0/10.0);
-		Game::Screen = std::make_shared<GameOverScreen>(snake_.getSize());
 		}
 	snake_.checkFruitCollisions(fruit_);
 }

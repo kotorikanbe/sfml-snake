@@ -29,7 +29,7 @@ void GameOverScreen::handleInput(sf::RenderWindow& window)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter))
 	{	
 		Game::TimePerFrame=sf::seconds(1.0f/10.0f);
-		Game::Screen = std::make_shared<MenuScreen>();
+		Game::Screen = std::make_unique<MenuScreen>();
 		}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		window.close();

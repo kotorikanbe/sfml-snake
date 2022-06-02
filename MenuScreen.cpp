@@ -94,7 +94,7 @@ void MenuScreen::handleInput(sf::RenderWindow &window)
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)){
 		Game::TimePerFrame=sf::seconds(1.0f/100.0f);
-		Game::Screen = std::make_shared<GameScreen>(backgroundcolor, linescolor, lines);
+		Game::Screen = std::make_unique<GameScreen>(backgroundcolor, linescolor, lines);
 		}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 		window.close();
