@@ -3,7 +3,7 @@
 using namespace sfSnake;
 
 int main()
-{
+{	
 	Game game;
 	game.run();
 

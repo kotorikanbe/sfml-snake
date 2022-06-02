@@ -1,7 +1,7 @@
 CC=gcc
 CXX=g++
 CC_FLAGS=-g -Wall 
-CXX_FLAGS=-g -std=c++17 -O3
+CXX_FLAGS=-g -std=c++17 -Wall -O0
 
 rm=rm -fr
 mkdir=mkdir2 -p
