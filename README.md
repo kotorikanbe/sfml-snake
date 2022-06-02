@@ -1,7 +1,7 @@
 # 《面向对象程序设计》大作业
 
 ## 1.编译环境说明
-
+请保证c++标准在c++17及以上。
 本程序使用了 SFML 库，配置完全参考[sfml tutorials](https://www.sfml-dev.org/tutorials/2.5/#getting-started)，简述如下：
 
 - 从[下载链接](https://www.sfml-dev.org/download/sfml/2.5.1/)中下载对应你编译器的 SFML 压缩包。
